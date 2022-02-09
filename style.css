@@ -134,6 +134,7 @@ body {
   background: #fff;
   margin: 5px;
   padding: 10px;
+  box-shadow: 4px 4px 2px 1px rgba(0, 0, 0, 0.2);
 }
 .post div {
   margin-bottom: 5px;

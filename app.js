@@ -64,7 +64,6 @@ function createPosts(items, itemsOnPage) {
         filterInput.addEventListener('input', (e) => {
             if (e.target.value) {
                 const data = items.filter(el => el.body.includes(e.target.value) ? el : el.innerHTML = '')
-                createPag(data)
                 const postsHtml = data.map(el => {
                     return `
                 <article class="post"> 
@@ -76,6 +75,8 @@ function createPosts(items, itemsOnPage) {
             `
                 }).join('')
                 return parent.innerHTML = postsHtml
+            } else {
+                createPosts()
             }
 
         })
