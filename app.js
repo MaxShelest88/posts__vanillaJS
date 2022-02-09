@@ -14,45 +14,76 @@ const renderPosts = async () => {
     }
 }
 
-function createPosts(items, itemsOnPage ) {
+function createPosts(items, itemsOnPage) {
     const parent = document.querySelector('.posts__body')
 
-    createPag()
+    createPosts()
+    createPag(items)
+    filter()
 
-    function createPag(){
+    function createPag(items) {
         const pagNumber = items.length / itemsOnPage
         const pagBody = document.createElement('div')
         parent.insertAdjacentElement('afterend', pagBody)
         pagBody.classList.add('posts__pagination', 'pagination')
-        createPosts()
+        const pagArr = []
         for (let i = 0; i < pagNumber; i++) {
-            const pagBtn = document.createElement('div')
-            pagBtn.classList.add('pagination__btn')
-            pagBtn.innerHTML = `${i + 1}`
-            pagBody.append(pagBtn)
-            pagBtn.addEventListener('click', ()=>{
-                createPosts(i)
+            pagArr.push(`<div class ='pagination__btn' data-id="${i}">${i + 1}</div>`)
+            pagBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('pagination__btn')) {
+                    const attr = e.target.dataset.id
+                    if (+attr === i) {
+                        createPosts(i)
+                    }
+                }
+
             })
         }
+        pagBody.innerHTML = pagArr.join('')
 
     }
 
-    function createPosts(startNum =0){
+    function createPosts(startNum = 0) {
         const startFrom = startNum * itemsOnPage
         const data = items.slice(startFrom, startFrom + itemsOnPage)
         const postsHtml = data.map(el => {
             return `
                 <article class="post"> 
-                         <div class="post__user">Пользователь ${el.userId} </div>
+                         <div class="post__user">Пользователь ${el.userId}</div>
                          <div class="post__id">Пост № ${el.id}</div>
                          <div class="post__title">${el.title} </div>
                          <div class="post__body">${el.body}</div>
                  </article>
             `
-        })
+        }).join('')
         return parent.innerHTML = postsHtml
     }
 
+    function filter() {
+        const filterInput = document.querySelector('.input')
+        filterInput.addEventListener('input', (e) => {
+            if (e.target.value) {
+                const data = items.filter(el => el.body.includes(e.target.value) ? el : el.innerHTML = '')
+                createPag(data)
+                const postsHtml = data.map(el => {
+                    return `
+                <article class="post"> 
+                         <div class="post__user">Пользователь ${el.userId}</div>
+                         <div class="post__id">Пост № ${el.id}</div>
+                         <div class="post__title">${el.title} </div>
+                         <div class="post__body">${el.body}</div>
+                 </article>
+            `
+                }).join('')
+                return parent.innerHTML = postsHtml
+            }
+
+        })
+    }
 }
 
 renderPosts()
+
+
+
+

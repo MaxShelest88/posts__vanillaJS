@@ -90,7 +90,7 @@ h6 {
 }
 */
 body {
-  background: #333;
+  background: skyblue;
 }
 
 .wrapper {
@@ -107,7 +107,6 @@ body {
 }
 
 .posts__body {
-  background: #999;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -116,7 +115,7 @@ body {
 .posts__pagination {
   display: flex;
   justify-content: center;
-  color: white;
+  color: #ffffff;
 }
 
 .pagination__btn {
@@ -141,9 +140,15 @@ body {
 }
 .post__title {
   font-weight: 600;
+  text-align: center;
 }
 .post__body {
   font-style: italic;
+  text-align: justify;
+}
+
+.input {
+  margin-top: 20px;
 }
 
 /*# sourceMappingURL=style.css.map */
