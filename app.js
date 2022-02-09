@@ -7,17 +7,18 @@ const url = 'https://jsonplaceholder.typicode.com/posts/'
 const renderPosts = async () => {
     try {
         const posts = await getData(url)
-        createPosts(posts)
+        createPosts(posts, 6)
 
     } catch (error) {
         console.log(error.message)
     }
 }
 
-function createPosts(items) {
+function createPosts(items, itemsOnPage ) {
     const parent = document.querySelector('.posts__body')
-    const itemsOnPage = 6
+
     createPag()
+
     function createPag(){
         const pagNumber = items.length / itemsOnPage
         const pagBody = document.createElement('div')
@@ -41,17 +42,16 @@ function createPosts(items) {
         const data = items.slice(startFrom, startFrom + itemsOnPage)
         const postsHtml = data.map(el => {
             return `
-                                <article class="post"> 
-                                         <div class="post__user">Пользователь ${el.userId} </div>
-                                         <div class="post__id">Пост № ${el.id}</div>
-                                         <div class="post__title">${el.title} </div>
-                                         <div class="post__body">${el.body}</div>
-                                 </article>
+                <article class="post"> 
+                         <div class="post__user">Пользователь ${el.userId} </div>
+                         <div class="post__id">Пост № ${el.id}</div>
+                         <div class="post__title">${el.title} </div>
+                         <div class="post__body">${el.body}</div>
+                 </article>
             `
         })
         return parent.innerHTML = postsHtml
     }
-
 
 }
 
