@@ -17,9 +17,7 @@ const renderPosts = async () => {
 function createPosts(items, itemsOnPage) {
     const parent = document.querySelector('.posts__body')
 
-    createPosts()
-    createPag(items)
-    filter()
+    createPostsHtml()
 
     function createPag(items) {
         const pagNumber = items.length / itemsOnPage
@@ -33,17 +31,16 @@ function createPosts(items, itemsOnPage) {
                 if (e.target.classList.contains('pagination__btn')) {
                     const attr = e.target.dataset.id
                     if (+attr === i) {
-                        createPosts(i)
+                        createPostsHtml(i)
                     }
                 }
 
             })
         }
         pagBody.innerHTML = pagArr.join('')
-
     }
 
-    function createPosts(startNum = 0) {
+    function createPostsHtml(startNum = 0) {
         const startFrom = startNum * itemsOnPage
         const data = items.slice(startFrom, startFrom + itemsOnPage)
         const postsHtml = data.map(el => {
@@ -56,14 +53,19 @@ function createPosts(items, itemsOnPage) {
                  </article>
             `
         }).join('')
+        createPag(items)
+        filter()
         return parent.innerHTML = postsHtml
     }
 
-    function filter() {
+    function filter(startNum = 0) {
+        const startFrom = startNum * itemsOnPage
         const filterInput = document.querySelector('.input')
         filterInput.addEventListener('input', (e) => {
             if (e.target.value) {
-                const data = items.filter(el => el.body.includes(e.target.value) ? el : el.innerHTML = '')
+                const data = items
+                    .filter(el => el.body.includes(e.target.value) ? el : el.innerHTML = '')
+                    .slice(startFrom, startFrom + itemsOnPage)
                 const postsHtml = data.map(el => {
                     return `
                 <article class="post"> 
