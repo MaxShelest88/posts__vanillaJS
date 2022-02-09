@@ -16,17 +16,29 @@ const renderPosts = async () => {
 
 function createPosts(items) {
     const parent = document.querySelector('.posts__body')
-    const itemsOnPage = 10
-    const pagNumber = items.length / itemsOnPage
-    const pagBody = document.createElement('div')
-    parent.insertAdjacentElement('afterend', pagBody)
-    pagBody.classList.add('posts__pagination')
-    for (let i = 0; i < pagNumber; i++) {
-        const pagStart = i * itemsOnPage
-        const pagBtn = document.createElement('div')
-        pagBtn.innerHTML = `${i + 1}`
-        pagBody.append(pagBtn)
-        const data = items.slice(pagStart, pagStart + itemsOnPage)
+    const itemsOnPage = 6
+    createPag()
+    function createPag(){
+        const pagNumber = items.length / itemsOnPage
+        const pagBody = document.createElement('div')
+        parent.insertAdjacentElement('afterend', pagBody)
+        pagBody.classList.add('posts__pagination', 'pagination')
+        createPosts()
+        for (let i = 0; i < pagNumber; i++) {
+            const pagBtn = document.createElement('div')
+            pagBtn.classList.add('pagination__btn')
+            pagBtn.innerHTML = `${i + 1}`
+            pagBody.append(pagBtn)
+            pagBtn.addEventListener('click', ()=>{
+                createPosts(i)
+            })
+        }
+
+    }
+
+    function createPosts(startNum =0){
+        const startFrom = startNum * itemsOnPage
+        const data = items.slice(startFrom, startFrom + itemsOnPage)
         const postsHtml = data.map(el => {
             return `
                                 <article class="post"> 
@@ -37,11 +49,10 @@ function createPosts(items) {
                                  </article>
             `
         })
-        parent.innerHTML = postsHtml
-        pagBtn.addEventListener('click', ()=>{
-            parent.innerHTML = postsHtml
-        })
+        return parent.innerHTML = postsHtml
     }
+
+
 }
 
 renderPosts()
