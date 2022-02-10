@@ -104,6 +104,7 @@ body {
 .container {
   max-width: 1100px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .posts__body {
@@ -150,6 +151,7 @@ body {
 
 .input {
   margin-top: 20px;
+  outline: none;
 }
 
 /*# sourceMappingURL=style.css.map */

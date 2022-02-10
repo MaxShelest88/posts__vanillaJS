@@ -36,7 +36,6 @@ function createPosts(items, itemsOnPage) {
                         createPosts(i)
                     }
                 }
-
             })
         }
         pagBody.innerHTML = pagArr.join('')
@@ -46,7 +45,11 @@ function createPosts(items, itemsOnPage) {
     function createPosts(startNum = 0) {
         const startFrom = startNum * itemsOnPage
         const data = items.slice(startFrom, startFrom + itemsOnPage)
-        parent.innerHTML = data.map(el => {
+        renderHtml(data)
+    }
+
+    function renderHtml(arr){
+        parent.innerHTML = arr.map(el => {
             return `
                 <article class="post"> 
                          <div class="post__user">Пользователь ${el.userId}</div>
@@ -67,25 +70,18 @@ function createPosts(items, itemsOnPage) {
                 const data = items.filter(el => el.body.includes(inputText) ? el : el.innerHTML = '')
                 createPag(data)
                 const newData = data.slice(startFrom, startFrom + itemsOnPage)
-                parent.innerHTML = newData.map(el => {
-                    return `
-                <article class="post"> 
-                         <div class="post__user">Пользователь ${el.userId}</div>
-                         <div class="post__id">Пост № ${el.id}</div>
-                         <div class="post__title">${el.title} </div>
-                         <div class="post__body">${el.body}</div>
-                 </article>
-            `
-                }).join('')
+                renderHtml(newData)
             } else createPosts()
-
                 const postBody = document.querySelectorAll('.post__body')
                 postBody.forEach(el =>{
                     const textEl = el.innerHTML
                     let index = textEl.indexOf(inputText)
-                    el.innerHTML = `${textEl.substring(0,index)} <mark> ${textEl.substring(index,index+inputText.length)}</mark>${textEl.substring(index + inputText.length)}`
+                    el.innerHTML = `
+                    ${textEl.substring(0,index)} 
+                    <mark> ${textEl.substring(index,index+inputText.length)}</mark>
+                    ${textEl.substring(index + inputText.length)}
+                    `
                 })
-
         })
     }
 }

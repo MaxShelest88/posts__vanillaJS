@@ -120,10 +120,10 @@ body {
 .container {
     max-width: 1100px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .posts__body {
-
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -181,4 +181,5 @@ body {
 }
 .input{
     margin-top: 20px;
+    outline: none;
 }
