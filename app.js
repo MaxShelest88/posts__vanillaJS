@@ -16,14 +16,16 @@ const renderPosts = async () => {
 
 function createPosts(items, itemsOnPage) {
     const parent = document.querySelector('.posts__body')
+    const pagBody = document.createElement('div')
+    parent.insertAdjacentElement('afterend', pagBody)
+    pagBody.classList.add('posts__pagination', 'pagination')
 
-    createPostsHtml()
+    createPosts()
+    createPag(items)
+    filter()
 
     function createPag(items) {
         const pagNumber = items.length / itemsOnPage
-        const pagBody = document.createElement('div')
-        parent.insertAdjacentElement('afterend', pagBody)
-        pagBody.classList.add('posts__pagination', 'pagination')
         const pagArr = []
         for (let i = 0; i < pagNumber; i++) {
             pagArr.push(`<div class ='pagination__btn' data-id="${i}">${i + 1}</div>`)
@@ -31,19 +33,20 @@ function createPosts(items, itemsOnPage) {
                 if (e.target.classList.contains('pagination__btn')) {
                     const attr = e.target.dataset.id
                     if (+attr === i) {
-                        createPostsHtml(i)
+                        createPosts(i)
                     }
                 }
 
             })
         }
         pagBody.innerHTML = pagArr.join('')
+
     }
 
-    function createPostsHtml(startNum = 0) {
+    function createPosts(startNum = 0) {
         const startFrom = startNum * itemsOnPage
         const data = items.slice(startFrom, startFrom + itemsOnPage)
-        const postsHtml = data.map(el => {
+        parent.innerHTML = data.map(el => {
             return `
                 <article class="post"> 
                          <div class="post__user">Пользователь ${el.userId}</div>
@@ -53,20 +56,18 @@ function createPosts(items, itemsOnPage) {
                  </article>
             `
         }).join('')
-        createPag(items)
-        filter()
-        return parent.innerHTML = postsHtml
     }
 
     function filter(startNum = 0) {
-        const startFrom = startNum * itemsOnPage
         const filterInput = document.querySelector('.input')
         filterInput.addEventListener('input', (e) => {
-            if (e.target.value) {
-                const data = items
-                    .filter(el => el.body.includes(e.target.value) ? el : el.innerHTML = '')
-                    .slice(startFrom, startFrom + itemsOnPage)
-                const postsHtml = data.map(el => {
+            const inputText = e.target.value
+            if (e.target && inputText !== '') {
+                const startFrom = startNum * itemsOnPage
+                const data = items.filter(el => el.body.includes(inputText) ? el : el.innerHTML = '')
+                createPag(data)
+                const newData = data.slice(startFrom, startFrom + itemsOnPage)
+                parent.innerHTML = newData.map(el => {
                     return `
                 <article class="post"> 
                          <div class="post__user">Пользователь ${el.userId}</div>
@@ -76,10 +77,14 @@ function createPosts(items, itemsOnPage) {
                  </article>
             `
                 }).join('')
-                return parent.innerHTML = postsHtml
-            } else {
-                createPosts()
-            }
+            } else createPosts()
+
+                const postBody = document.querySelectorAll('.post__body')
+                postBody.forEach(el =>{
+                    const textEl = el.innerHTML
+                    let index = textEl.indexOf(inputText)
+                    el.innerHTML = `${textEl.substring(0,index)} <mark> ${textEl.substring(index,index+inputText.length)}</mark>${textEl.substring(index + inputText.length)}`
+                })
 
         })
     }
