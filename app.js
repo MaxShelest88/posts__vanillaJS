@@ -77,9 +77,7 @@ function createPosts(items, itemsOnPage) {
                     const textEl = el.innerHTML
                     let index = textEl.indexOf(inputText)
                     el.innerHTML = `
-                    ${textEl.substring(0,index)} 
-                    <mark> ${textEl.substring(index,index+inputText.length)}</mark>
-                    ${textEl.substring(index + inputText.length)}
+                    ${textEl.substring(0,index)}<mark> ${textEl.substring(index,index+inputText.length)}</mark>${textEl.substring(index + inputText.length)}
                     `
                 })
         })
