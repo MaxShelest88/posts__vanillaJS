@@ -139,7 +139,7 @@ body {
   transition: background-color 0.3s ease;
 }
 .post:hover {
-  background: lightgray;
+  background: #ececec;
 }
 .post div {
   margin-bottom: 5px;
@@ -159,7 +159,7 @@ body {
 }
 
 .active {
-  color: #bdbbbb;
+  color: grey;
 }
 
 /*# sourceMappingURL=style.css.map */
