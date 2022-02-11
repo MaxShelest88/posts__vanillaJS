@@ -8,7 +8,6 @@ const renderPosts = async () => {
     try {
         const posts = await getData(url)
         createPosts(posts, 6)
-
     } catch (error) {
         console.log(error.message)
     }
