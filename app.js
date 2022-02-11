@@ -115,7 +115,9 @@ function createPosts(items, itemsOnPage) {
                 createPag(data)
                 const newData = data.slice(startFrom, startFrom + itemsOnPage)
                 renderHtml(newData)
-            } else createPosts()
+            } else {
+                createPosts()
+                createPag(items)}
             textHighlight (inputText)
         })
         textHighlight(inputValue)
