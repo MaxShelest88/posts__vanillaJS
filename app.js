@@ -48,7 +48,7 @@ function createPosts(items, itemsOnPage) {
         renderHtml(data)
     }
 
-    function renderHtml(arr){
+    function renderHtml(arr) {
         parent.innerHTML = arr.map(el => {
             return `
                 <article class="post"> 
@@ -67,25 +67,30 @@ function createPosts(items, itemsOnPage) {
             const inputText = e.target.value
             if (e.target && inputText !== '') {
                 const startFrom = startNum * itemsOnPage
-                const data = items.filter(el => el.body.includes(inputText) ? el : el.innerHTML = '')
+                const data = items.filter(el => {
+                    const elText = JSON.stringify(el)
+                    return elText.includes(inputText) ? el : el.innerHTML = ''
+                })
                 createPag(data)
                 const newData = data.slice(startFrom, startFrom + itemsOnPage)
                 renderHtml(newData)
             } else createPosts()
-                const postBody = document.querySelectorAll('.post__body')
-                postBody.forEach(el =>{
-                    const textEl = el.innerHTML
-                    let index = textEl.indexOf(inputText)
-                    el.innerHTML = `
-                    ${textEl.substring(0,index)}<mark> ${textEl.substring(index,index+inputText.length)}</mark>${textEl.substring(index + inputText.length)}
-                    `
+            const posts = document.querySelectorAll('.post')
+            posts.forEach(el => {
+                const elChildren = [...el.children]
+                elChildren.forEach(item => {
+                    const textEl = item.innerHTML
+                    if (textEl.includes(inputText)) {
+                        let index = textEl.indexOf(inputText)
+                        console.log(index)
+                        item.innerHTML = `
+                        ${textEl.substring(0, index)}<mark>${textEl.substring(index, index + inputText.length)}</mark>${textEl.substring(index + inputText.length)}
+                        `
+                    }
                 })
+            })
         })
     }
 }
 
 renderPosts()
-
-
-
-
